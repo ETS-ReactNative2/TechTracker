@@ -1,10 +1,18 @@
-import { StatusBar } from 'expo-status-bar';
+import "react-native-gesture-handler";
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
+import LoginScreen from "./components/login";
+import { FluidNavigator, Transition } from 'react-navigation-fluid-transitions';
+
+// const Navigator = FluidNavigator({
+//   login: { screen: LoginScreen },
+//   signup: { screen: RegisterScreen },
+// });
 
 const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 
 
 
@@ -26,7 +34,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen
           name='loginPage'
-          component={Login}
+          component={LoginScreen}
           options={{ title: "Login" }}
         />
         <Stack.Screen
