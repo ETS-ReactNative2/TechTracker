@@ -4,6 +4,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import LoginScreen from "./components/login";
+import SignUpPage from "./components/signup";
 import { FluidNavigator, Transition } from 'react-navigation-fluid-transitions';
 
 // const Navigator = FluidNavigator({
@@ -39,7 +40,7 @@ export default function App() {
         />
         <Stack.Screen
           name='signUp'
-          component={SignUp}
+          component={SignUpPage}
           options={{ title: "Sign Up" }}
         />
         <Stack.Screen name='home' component={HomeScreen} />

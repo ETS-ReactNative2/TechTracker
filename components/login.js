@@ -8,7 +8,7 @@ import React from 'react';
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { Input, Button, Header } from "react-native-elements";
 
 
 const LoginScreen = ({ navigation }) => {
@@ -54,40 +54,42 @@ const LoginScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView>
-                <ImageBackground source={{uri: '../images/background.jpeg'}}>
-                    <Input
-                        placeholder='email'
-                        leftIcon={{ type: "fontisto", name: "email" }}
-                        label='Your Email Address'
-                        onChangeText={(email) => {
-                            setEmail(email);
-                        }}
-                        value={state.email}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                    />
-                    <Input
-                        placeholder='password'
-                        leftIcon={{ type: "entypo", name: "lock" }}
-                        label='Your Password'
-                        onChangeText={(password) => {
-                            setPassword(password);
-                        }}
-                        value={state.password}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        secureTextEntry={true}
-                    />
-                    <Text>
-                        <Button onPress={() => LoginHandler()} title='Login' />
-                    </Text>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={SignUpNav}
-                    >
-                        <Text style={styles.btnText}>Not A User Yet? Sign Up!
+                <ImageBackground source={{ uri: '../images/background.jpeg' }}>
+                    <Header>
+                        <Input
+                            placeholder='email'
+                            leftIcon={{ type: "fontisto", name: "email" }}
+                            label='Your Email Address'
+                            onChangeText={(email) => {
+                                setEmail(email);
+                            }}
+                            value={state.email}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                        />
+                        <Input
+                            placeholder='password'
+                            leftIcon={{ type: "entypo", name: "lock" }}
+                            label='Your Password'
+                            onChangeText={(password) => {
+                                setPassword(password);
+                            }}
+                            value={state.password}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            secureTextEntry={true}
+                        />
+                        <Text>
+                            <Button onPress={() => LoginHandler()} title='Login' />
                         </Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={SignUpNav}
+                        >
+                            <Text style={styles.btnText}>Not A User Yet? Sign Up!
+                            </Text>
+                        </TouchableOpacity>
+                    </Header>
                 </ImageBackground>
             </KeyboardAvoidingView>
         </SafeAreaView>
