@@ -6,8 +6,15 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var sessionsRouter = require('./routes/sessions');
+var authRouter = require('./routes/auth');
+var activitiesRouter = require('./routes/activities');
 
 var app = express();
+
+const MongoClient = require('mongodb').MongoClient;
+let client = new MongoClient("mongodb+srv://lindsera1:477@cluster0.obbao.mongodb.net/admin?authSource=admin&replicaSet=atlas-tt0h4i-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true", { useUnifiedTopology: true });
+let connection;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,8 +26,24 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/', (req, res, next) => {
+  if (!connection) { // connect to database
+    client.connect(function (err) {
+      connection = client.db('TechTrackerDB-Capstone');
+      req.db = connection;
+      next();
+    })
+  } else { // 
+    req.db = connection;
+    next();
+  }
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/sessions', sessionsRouter);
+app.use('/auth', authRouter);
+app.use('/activities', activitiesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -38,4 +61,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+app.listen(3000);

@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { Header } from "react-native-elements";
 
-const HomeScreen = () => {
+const HomeScreen = (props) => {
 
     const [state, setState] = React.useState({
         name: '',

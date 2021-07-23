@@ -6,12 +6,43 @@ import {
     View,
     TouchableOpacity
 } from "react-native";
-import { Input, Button, Header } from "react-native-elements";
+import { Header } from "react-native-elements";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import SelectDropdown from "react-native-select-dropdown";
+import * as actions from '../actions/actions'
+import axios from 'axios';
+import { connect } from 'react-redux'
 
-const SessionScreen = () => {
+const SessionScreen = (props) => {
 
+    React.useEffect(() => {
+        axios.get('http://localhost:3000/activities').then(activities => {
+            const names = activities.map(activity => {
+                return activity.activityName
+            })
+            return props.setActivities(names);
+        })
+    }, []);
+
+    const createActivityForm = (
+        <View>
+            <Input
+                label='Activity Name'
+                value={props.activityName}
+                onChangeText={(name) => props.handleActivityNameChange(name)}
+                autoCapitalize="none"
+                autoCorrect={false}
+
+            />
+            <TouchableOpacity
+                style={styles.button}
+                onPress={props.addActivity({activityName: props.activityName})}
+            >
+                <Text style={styles.btnText}>Create New Activity
+                </Text>
+            </TouchableOpacity>
+        </View>
+    )
 
     return (
         <View>
@@ -20,16 +51,15 @@ const SessionScreen = () => {
             />
             <TouchableOpacity
                 style={styles.button}
-                onPress={ } //trigger a state change, which will rerender and display
-            //a form to create a new session
+                onPress={props.makeCreateActivityTrue}
             >
-                <Text style={styles.btnText}>Create A New Session
+                <Text style={styles.btnText}>Create A New Activity
                 </Text>
             </TouchableOpacity>
             <SelectDropdown
-                data={ } //replace with state list of activities retrieved from backend
-                onSelect={(selectedItem, index) => {
-                    //provide this value to the new session
+                data={props.activities}
+                onSelect={(selectedActivity) => {
+                    props.setSelectedActivity(selectedActivity);
                 }}
                 defaultButtonText={"Select An Activity"}
                 buttonTextAfterSelection={(selectedItem, index) => {
@@ -50,10 +80,11 @@ const SessionScreen = () => {
                 rowStyle={styles.dropdown2RowStyle}
                 rowTextStyle={styles.dropdown2RowTxtStyle}
             />
+            {createActivityState === true ? createActivityForm : null}
             <TouchableOpacity
                 style={styles.button}
                 onPress={ } //Creates a session object, which will be preserved in state, until 
-                //stop is pressed, then the object is sent to the database.
+            //stop is pressed, then the object is sent to the database.
             >
                 <Text style={styles.btnText}>Start Session
                 </Text>
@@ -96,4 +127,23 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SessionScreen;
+const mapStateToProps = (state) => {
+    return {
+        activities: state.activities,
+        createActivityState: state.createNewActivity,
+        activityName: state.activityName
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setActivities: (activities) => dispatch(actions.setActivities(activities)),
+        makeCreateActivityTrue: () => dispatch(actions.toggleCreateActivity()),
+        handleActivityNameChange: (name) => dispatch(actions.handleActivityNameChange(name)),
+        addActivity: (activity) => dispatch(actions.addActivity(activity)),
+        setSelectedActivity: (activityName) => dispatch(actions.setSelectedActivity(activityName))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SessionScreen);
+

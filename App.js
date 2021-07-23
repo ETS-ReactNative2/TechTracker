@@ -5,12 +5,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import LoginScreen from "./components/login";
 import SignUpPage from "./components/signup";
-import { FluidNavigator, Transition } from 'react-navigation-fluid-transitions';
-
-// const Navigator = FluidNavigator({
-//   login: { screen: LoginScreen },
-//   signup: { screen: RegisterScreen },
-// });
+import HomeScreen from "./components/home";
+import SessionScreen from "./components/sessions";
+import StatisticsScreen from "./components/statistics";
+import InspirationScreen from "./components/blog";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -43,15 +41,35 @@ export default function App() {
           component={SignUpPage}
           options={{ title: "Sign Up" }}
         />
-        <Stack.Screen name='home' component={HomeScreen} />
+        <Stack.Screen name='Home' component={UserScreen} />
       </Stack.Navigator>
     </NavigationContainer>) :
     (<NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name='home' component={HomeScreen} />
+        <Stack.Screen name='Home' component={UserScreen} />
       </Stack.Navigator>
     </NavigationContainer>)
   )
 }
+
+const UserScreen = () => {
+  return (
+      <Drawer.Navigator>
+          <Drawer.Screen name='Home' component={HomeScreen} />
+          <Drawer.Screen
+              name='Sessions'
+              component={SessionScreen}
+          />
+          <Drawer.Screen
+              name='Statistics'
+              component={StatisticsScreen}   
+          />
+          <Drawer.Screen 
+          name='Inspiration'
+          component={InspirationScreen}
+          />
+      </Drawer.Navigator>
+  )
+};
 
 

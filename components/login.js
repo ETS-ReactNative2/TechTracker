@@ -11,7 +11,7 @@ import { Alert } from "react-native";
 import { Input, Button, Header } from "react-native-elements";
 
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation }, props) => {
 
     const [state, setState] = React.useState({
         email: '',
@@ -45,6 +45,9 @@ const LoginScreen = ({ navigation }) => {
                 };
 
                 setStorage();
+
+                navigation.navigate('Home');
+
             } else {
                 Alert.alert("Login was unsuccessful");
             }
@@ -55,41 +58,43 @@ const LoginScreen = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView>
                 <ImageBackground source={{ uri: '../images/background.jpeg' }}>
-                    <Header>
-                        <Input
-                            placeholder='email'
-                            leftIcon={{ type: "fontisto", name: "email" }}
-                            label='Your Email Address'
-                            onChangeText={(email) => {
-                                setEmail(email);
-                            }}
-                            value={state.email}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                        />
-                        <Input
-                            placeholder='password'
-                            leftIcon={{ type: "entypo", name: "lock" }}
-                            label='Your Password'
-                            onChangeText={(password) => {
-                                setPassword(password);
-                            }}
-                            value={state.password}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                            secureTextEntry={true}
-                        />
-                        <Text>
-                            <Button onPress={() => LoginHandler()} title='Login' />
+                    <Header
+                        centerComponent={{ text: `Login`, style: { color: '#fff' } }}
+                    />
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={SignUpNav}
+                    >
+                        <Text style={styles.btnText}>Not A User Yet? Sign Up!
                         </Text>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={SignUpNav}
-                        >
-                            <Text style={styles.btnText}>Not A User Yet? Sign Up!
-                            </Text>
-                        </TouchableOpacity>
-                    </Header>
+                    </TouchableOpacity>
+                    <Input
+                        placeholder='email'
+                        leftIcon={{ type: "fontisto", name: "email" }}
+                        label='Your Email Address'
+                        onChangeText={(email) => {
+                            setEmail(email);
+                        }}
+                        value={state.email}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                    />
+                    <Input
+                        placeholder='password'
+                        leftIcon={{ type: "entypo", name: "lock" }}
+                        label='Your Password'
+                        onChangeText={(password) => {
+                            setPassword(password);
+                        }}
+                        value={state.password}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        secureTextEntry={true}
+                    />
+                    <Text>
+                        <Button onPress={() => LoginHandler()} title='Login' />
+                    </Text>
+
                 </ImageBackground>
             </KeyboardAvoidingView>
         </SafeAreaView>

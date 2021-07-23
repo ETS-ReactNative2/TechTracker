@@ -1,6 +1,16 @@
 import React from 'react';
+import axios from 'axios';
+import {
+    TouchableOpacity,
+    Text,
+    StyleSheet,
+    SafeAreaView,
+    KeyboardAvoidingView,
+} from "react-native";
+import { Input, Header } from "react-native-elements";
 
-const SignUpPage = ({ navigation }) => {
+
+const SignUpPage = ({ navigation }, props) => {
     const [state, setState] = useState({
         email: '',
         password: '',
@@ -23,7 +33,7 @@ const SignUpPage = ({ navigation }) => {
     }
 
     const Submit = () => {
-        console.log({ state })
+
         axios.post("http://localhost:3000/auth/signup", { ...state })
 
             .then(({ data }) => {
@@ -43,7 +53,9 @@ const SignUpPage = ({ navigation }) => {
     return (
         <SafeAreaView>
             <KeyboardAvoidingView>
-
+                <Header 
+                centerComponent={{ text: `Sign Up Here`, style: { color: '#fff' } }}
+                />
                 <Input
                     label='Your First name'
                     value={state.firstname}
