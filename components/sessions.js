@@ -24,6 +24,85 @@ const SessionScreen = (props) => {
         })
     }, []);
 
+    const startSession = () => {
+
+        const startDate = new Date();
+        props.setSessionStartTime(startDate);
+        props.setSessionID(props.userID);
+        props.setSessionActivity(props.userActivity);
+
+        if(props.started !== true){
+            props.toggleSessionStarted(true)
+        } 
+    }
+
+    const stopSession = () => {
+
+        const endDate = new Date();
+        props.setSessionEndTime(endDate);
+
+        const duration = Math.abs(props.sessionStart.getTime() - props.sessionEnd.getTime()) / (1000*60*60)
+        props.setSessionDuration(duration);
+
+        let hourOfDay = props.sessionStart.getHours()
+        if(hourOfDay > 12){
+            hourOfDay = hourOfDay - 12 + 'PM'
+        } else {
+            hourOfDay = hourOfDay + "AM"
+        }
+        props.setSessionHourOfDay(hourOfDay)
+
+        let dayOfWeek = props.sessionStart.getDay()
+        if(dayOfWeek === 0){
+            dayOfWeek = 'Sunday'
+        } else if (dayOfWeek === 1){
+            dayOfWeek = 'Monday'
+        } else if (dayOfWeek === 2){
+            dayOfWeek = 'Tuesday'
+        } else if (dayOfWeek === 3){
+            dayOfWeek = 'Wednesday'
+        } else if (dayOfWeek === 4){
+            dayOfWeek = 'Thursday'
+        } else if (dayOfWeek === 5){
+            dayOfWeek = 'Friday'
+        } else if (dayOfWeek === 6){
+            dayOfWeek = 'Saturday'
+        }
+        props.setSessionDayOfWeek(dayOfWeek)
+
+        if(props.started === true){
+            props.toggleSessionStarted(false)
+        } 
+
+        axios.post('http://localhost:3000/sessions', {...props.session}).then(({data}) => {
+            if(data.status === 'success'){
+                console.log('successfully added')
+            }
+        }).catch(error => {
+            console.log(error)
+        })  
+    }
+
+    const startButton = (
+        <TouchableOpacity
+            style={styles.button}
+            onPress={startSession}
+        >
+            <Text style={styles.btnText}>Start Session
+            </Text>
+        </TouchableOpacity>
+    );
+
+    const stopButton = (
+        <TouchableOpacity
+            style={styles.button}
+            onPress={stopSession} 
+        >
+            <Text style={styles.btnText}>Stop Session
+            </Text>
+        </TouchableOpacity>
+    );
+
     const createActivityForm = (
         <View>
             <Input
@@ -36,7 +115,7 @@ const SessionScreen = (props) => {
             />
             <TouchableOpacity
                 style={styles.button}
-                onPress={props.addActivity({activityName: props.activityName})}
+                onPress={props.addActivity({ activityName: props.activityName })}
             >
                 <Text style={styles.btnText}>Create New Activity
                 </Text>
@@ -62,10 +141,10 @@ const SessionScreen = (props) => {
                     props.setSelectedActivity(selectedActivity);
                 }}
                 defaultButtonText={"Select An Activity"}
-                buttonTextAfterSelection={(selectedItem, index) => {
+                buttonTextAfterSelection={(selectedItem) => {
                     return selectedItem;
                 }}
-                rowTextForSelection={(item, index) => {
+                rowTextForSelection={(item) => {
                     return item;
                 }}
                 buttonStyle={styles.dropdown2BtnStyle}
@@ -80,15 +159,8 @@ const SessionScreen = (props) => {
                 rowStyle={styles.dropdown2RowStyle}
                 rowTextStyle={styles.dropdown2RowTxtStyle}
             />
-            {createActivityState === true ? createActivityForm : null}
-            <TouchableOpacity
-                style={styles.button}
-                onPress={ } //Creates a session object, which will be preserved in state, until 
-            //stop is pressed, then the object is sent to the database.
-            >
-                <Text style={styles.btnText}>Start Session
-                </Text>
-            </TouchableOpacity>
+            {props.createActivityState === true ? createActivityForm : null}
+            {props.started !== true ? startButton : stopButton}
         </View>
     )
 }
@@ -131,7 +203,14 @@ const mapStateToProps = (state) => {
     return {
         activities: state.activities,
         createActivityState: state.createNewActivity,
-        activityName: state.activityName
+        activityName: state.activityName,
+        selectedActivity: state.selectedActivity,
+        userActivity: state.selectedActivity,
+        userID: state.userID,
+        sessionStart: state.session.start_time,
+        sessionEnd: state.session.end_time,
+        started: state.started,
+        session: state.session
     }
 }
 
@@ -141,7 +220,15 @@ const mapDispatchToProps = (dispatch) => {
         makeCreateActivityTrue: () => dispatch(actions.toggleCreateActivity()),
         handleActivityNameChange: (name) => dispatch(actions.handleActivityNameChange(name)),
         addActivity: (activity) => dispatch(actions.addActivity(activity)),
-        setSelectedActivity: (activityName) => dispatch(actions.setSelectedActivity(activityName))
+        setSelectedActivity: (activityName) => dispatch(actions.setSelectedActivity(activityName)),
+        toggleSessionStarted: (boolean) => dispatch(actions.toggleStarted(boolean)),
+        setSessionID: (id) => dispatch(actions.setSessionID(id)),
+        setSessionActivity: (activity) => dispatch(actions.setSessionActivity(activity)),
+        setSessionStartTime: (time) => dispatch(actions.setSessionStartTime(time)),
+        setSessionEndTime: (time) => dispatch(actions.setSessionEndTime(time)),
+        setSessionDuration: (duration) => dispatch(actions.setSessionDuration(duration)),
+        setSessionHourOfDay: (hour) => dispatch(actions.setSessionHourOfDay(hour)),
+        setSessionDayOfWeek: (day) => dispatch(actions.setSessionDayOfWeek(day))
     }
 }
 

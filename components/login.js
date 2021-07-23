@@ -38,7 +38,7 @@ const LoginScreen = ({ navigation }, props) => {
 
                 const setStorage = async (data) => {
                     try {
-                        await AsyncStorage.setItem('@storage_key', data.token)
+                        await AsyncStorage.setItem('userToken', data.token)
                     } catch (error) {
                         console.log(error);
                     }

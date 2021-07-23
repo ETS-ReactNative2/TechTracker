@@ -9,15 +9,11 @@ import { Header } from "react-native-elements";
 
 const HomeScreen = (props) => {
 
-    const [state, setState] = React.useState({
-        name: '',
-    })
-
     React.useEffect(() => {
         (async () => {
             let userToken = await AsyncStorage.getItem("userToken");
-
-            setState({ name: userToken.firstName });
+            props.setFirstName(userToken.firstName);
+            props.setUserID(userToken.id);
         })();
     }, []);
 
@@ -43,7 +39,7 @@ const HomeScreen = (props) => {
                     nothing more than that. As you continue to log sessions, you'll be able to visualize how often or seldom you do that activity.
                     Just choose an activity on the statistics page and you will see all the daily, weekly, and monthly usage.
 
-                    The very last page features inspirational content. You may or may not read it, but as you continue to create sessions, you may
+                    The last page features inspirational content. You may or may not read it, but as you continue to create sessions, you may
                     find yourself with more time on your hands. On this page, you can enrich your mind with new ideas and find new ways to
                     use that extra time.
 
@@ -61,4 +57,19 @@ const styles = StyleSheet.create({
     null: null
 })
 
-export default HomeScreen;
+const mapStateToProps = (state) => {
+    return {
+        userFirstName: state.firstName,
+        userID: state.userID
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setFirstName: (name) => dispatch(actions.setFirstName(name)),
+        setUserID: (id) => dispatch(actions.setUserID(id))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+

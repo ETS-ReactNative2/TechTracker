@@ -9,6 +9,8 @@ import axios from 'axios';
 import { Input, Button, Header } from "react-native-elements";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import SelectDropdown from "react-native-select-dropdown";
+import axios from 'axios';
+import { connect } from 'react-redux'
 
 const StatisticsScreen = (props) => {
 

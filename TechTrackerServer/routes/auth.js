@@ -10,7 +10,7 @@ router.post('/login', (req, res) => {
                 const object = {
                     id: doc._id,
                     email: doc.email,
-                    fullname: doc.firstname,
+                    firstname: doc.firstname,
                 };
                 let token = jwtmanager.generate(object);
                 res.json({ status: "success", token: token });
