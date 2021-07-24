@@ -6,7 +6,8 @@ const initialState = {
    submitClicked: null,
    createNewActivity: null,
    activityName: '',
-   selectedActivity: '',
+   selectedSessionActivity: '',
+   selectedStatsActivity: '',
    activities: [],
    userID: '',
    firstName: '',
@@ -116,6 +117,12 @@ const reducer = (state = initialState, action) => {
         return {
             ...state, 
             session: {...state.session, dayOfWeek: action.payload}
+        }
+    }
+    if(action.type === actions.SET_STATS_ACTIVITY) {
+        return {
+            ...state, 
+            selectedStatsActivity: action.payload
         }
     }
     

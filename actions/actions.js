@@ -14,6 +14,7 @@ export const SET_SESSION_END_TIME = 'SET_SESSION_END_TIME';
 export const SET_SESSION_DURATION = 'SET_SESSION_DURATION';
 export const SET_SESSION_HOUR_OF_DAY = 'SET_SESSION_HOUR_OF_DAY';
 export const SET_SESSION_DAY_OF_WEEK = 'SET_SESSION_DAY_OF_WEEK';
+export const SET_STATS_ACTIVITY = 'SET_STATS_ACTIVITY';
 
 export const setActivities = (activities) => {
     return {
@@ -105,4 +106,9 @@ export const setSessionDayOfWeek = (day) => {
         payload: day
     }
 }
-
+export const setStatsActivity = (activity) => {
+    return {
+        type: SET_STATS_ACTIVITY,
+        payload: activity
+    }
+}

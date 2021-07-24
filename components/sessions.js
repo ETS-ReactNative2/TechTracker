@@ -24,7 +24,11 @@ const SessionScreen = (props) => {
         })
     }, []);
 
-    const startSession = () => {
+    const startSession = () => { //does rerender happen before function finishes executing?
+
+        if(props.selectedSessionActivity === ''){
+            return console.log("activity not chosen");
+        }
 
         const startDate = new Date();
         props.setSessionStartTime(startDate);
@@ -204,8 +208,8 @@ const mapStateToProps = (state) => {
         activities: state.activities,
         createActivityState: state.createNewActivity,
         activityName: state.activityName,
-        selectedActivity: state.selectedActivity,
-        userActivity: state.selectedActivity,
+        selectedSessionActivity: state.selectedSessionActivity,
+        userActivity: state.selectedSessionActivity,
         userID: state.userID,
         sessionStart: state.session.start_time,
         sessionEnd: state.session.end_time,

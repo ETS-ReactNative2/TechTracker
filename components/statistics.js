@@ -14,26 +14,32 @@ import { connect } from 'react-redux'
 
 const StatisticsScreen = (props) => {
 
-
+    const getStats = () => {
+        if (props.selectedStatsActivity === '') {
+            return console.log('activity not chosen')
+        }
+        axios.get(`http://localhost:3000/sessions/${props.selectedActivity}`).then(({ data }) => {
+            props.setSessions(data.sessions) //will this cause rerender before the rest of the function finishes?
+        })
+    }
 
     return (
         <SafeAreaView>
             <Header
-            centerComponent={{ text: `Statistics`, style: { color: '#fff' } }}
+                centerComponent={{ text: `Statistics`, style: { color: '#fff' } }}
             />
             <Text>To see your Statistics, choose an activity from the dropdown, then click "Get Stats"</Text>
             <TouchableOpacity
                 style={styles.button}
-                onPress={ } //Creates a session object, which will be preserved in state, until 
-                //stop is pressed, then the object is sent to the database.
+                onPress={getStats}
             >
                 <Text style={styles.btnText}>Get Stats
                 </Text>
             </TouchableOpacity>
             <SelectDropdown
                 data={ } //replace with state list of activities retrieved from backend
-                onSelect={(selectedItem, index) => {
-                    //provide this value to the new session
+                onSelect={(selectedActivity, index) => {
+                    props.setStatsActivity(selectedActivity);
                 }}
                 defaultButtonText={"Select An Activity"}
                 buttonTextAfterSelection={(selectedItem, index) => {
@@ -95,16 +101,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        activities: state.activities
+        activities: state.activities,
+        selectedStatsActivity: state.selectedStatsActivity
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setActivities: (activities) => dispatch(actions.deleteButtonEventHandler(activities)),
+        setStatsActivity: (activity) => dispatch(actions.setStatsActivity(activity)),
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(StatisticsScreen);
-
-export default StatisticsScreen;

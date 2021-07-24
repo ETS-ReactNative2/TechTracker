@@ -37,7 +37,7 @@ const HomeScreen = (props) => {
                     Simply choose an activity that you have pre-created, or create a new activity. Then, just push start session.
                     When you are done with this activity, push the end button. That's it. The magic is that you were aware of your activity,
                     nothing more than that. As you continue to log sessions, you'll be able to visualize how often or seldom you do that activity.
-                    Just choose an activity on the statistics page and you will see all the daily, weekly, and monthly usage.
+                    Just choose an activity on the statistics page and you will see all the daily and weekly usage.
 
                     The last page features inspirational content. You may or may not read it, but as you continue to create sessions, you may
                     find yourself with more time on your hands. On this page, you can enrich your mind with new ideas and find new ways to
@@ -45,8 +45,6 @@ const HomeScreen = (props) => {
 
                     My hope is that by using this app, you might start to see a brighter, more spacious, and conscious side of life simply by noticing how
                     you spend your time and energy. If you have any questions, you can reach out to me personally, at ryan.lindsey27@gmail.com.
-
-                    Have a blessed day. Namaste.
                 </Text>
             </ScrollView>
         </SafeAreaView>
