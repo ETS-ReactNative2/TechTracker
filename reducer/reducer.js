@@ -8,6 +8,7 @@ const initialState = {
    activityName: '',
    selectedSessionActivity: '',
    selectedStatsActivity: '',
+   sessions: [],
    activities: [],
    userID: '',
    firstName: '',
@@ -20,7 +21,12 @@ const initialState = {
        duration: null,
        hourOfDay: null,
        dayOfWeek: null
-   }
+   },
+   lineGraphDataObjects: [],
+   finalLineGraphData: [],
+   finalBarChartData: [],
+   totalTime: '',
+   getStatsClicked: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -56,7 +62,7 @@ const reducer = (state = initialState, action) => {
     if(action.type === actions.SET_SELECTED_ACTIVITY) {
         return {
             ...state, 
-            selectedActivity: action.payload
+            selectedSessionActivity: action.payload
         }
     }
     if(action.type === actions.SET_FIRST_NAME) {
@@ -125,7 +131,42 @@ const reducer = (state = initialState, action) => {
             selectedStatsActivity: action.payload
         }
     }
-    
+    if(action.type === actions.SET_SESSIONS) {
+        return {
+            ...state, 
+            sessions: action.payload
+        }
+    }
+    if(action.type === actions.SET_LINE_GRAPH_DATA_OBJECTS) {
+        return {
+            ...state, 
+            lineGraphDataObjects: action.payload
+        }
+    }
+    if(action.type === actions.SET_FINAL_LINE_GRAPH_DATA) {
+        return {
+            ...state, 
+            finalLineGraphData: action.payload
+        }
+    }
+    if(action.type === actions.SET_FINAL_BAR_CHART_DATA) {
+        return {
+            ...state, 
+            finalBarChartData: action.payload
+        }
+    }
+    if(action.type === actions.SET_TOTAL_TIME) {
+        return {
+            ...state, 
+            totalTime: action.payload
+        }
+    }
+    if(action.type === actions.TOGGLE_GET_STATS_CLICKED) {
+        return {
+            ...state, 
+            getStatsClicked: action.payload
+        }
+    }
 
     return state;
 }

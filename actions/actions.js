@@ -15,6 +15,12 @@ export const SET_SESSION_DURATION = 'SET_SESSION_DURATION';
 export const SET_SESSION_HOUR_OF_DAY = 'SET_SESSION_HOUR_OF_DAY';
 export const SET_SESSION_DAY_OF_WEEK = 'SET_SESSION_DAY_OF_WEEK';
 export const SET_STATS_ACTIVITY = 'SET_STATS_ACTIVITY';
+export const SET_SESSIONS = 'SET_SESSIONS';
+export const SET_LINE_GRAPH_DATA_OBJECTS = 'SET_LINE_GRAPH_DATA_OBJECTS';
+export const SET_FINAL_LINE_GRAPH_DATA = 'SET_FINAL_LINE_GRAPH_DATA';
+export const SET_FINAL_BAR_CHART_DATA = 'SET_FINAL_BAR_CHART_DATA';
+export const SET_TOTAL_TIME = 'SET_TOTAL_TIME';
+export const TOGGLE_GET_STATS_CLICKED = 'TOGGLE_GET_STATS_CLICKED';
 
 export const setActivities = (activities) => {
     return {
@@ -110,5 +116,35 @@ export const setStatsActivity = (activity) => {
     return {
         type: SET_STATS_ACTIVITY,
         payload: activity
+    }
+}
+export const setLineGraphDataObjects = (data) => {
+    return {
+        type: SET_LINE_GRAPH_DATA_OBJECTS,
+        payload: data
+    }
+}
+export const setFinalLineGraphData = (finalData) => {
+    return {
+        type: SET_FINAL_LINE_GRAPH_DATA,
+        payload: finalData
+    }
+}
+export const setFinalBarChartData = (finalData) => {
+    return {
+        type: SET_FINAL_BAR_CHART_DATA,
+        payload: finalData
+    }
+}
+export const setTotalTime = (time) => {
+    return {
+        type: SET_FINAL_BAR_CHART_DATA,
+        payload: time
+    }
+}
+export const toggleGetStatsClicked = (boolean) => {
+    return {
+        type: TOGGLE_GET_STATS_CLICKED,
+        payload: boolean
     }
 }

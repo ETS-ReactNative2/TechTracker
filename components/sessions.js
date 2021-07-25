@@ -51,6 +51,10 @@ const SessionScreen = (props) => {
         let hourOfDay = props.sessionStart.getHours()
         if(hourOfDay > 12){
             hourOfDay = hourOfDay - 12 + 'PM'
+        } else if (hourOfDay === 0) {
+            hourOfDay = 12 + "AM"
+        } else if (hourOfDay === 12) {
+            hourOfDay = hourOfDay + "PM"
         } else {
             hourOfDay = hourOfDay + "AM"
         }
