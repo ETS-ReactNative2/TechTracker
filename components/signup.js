@@ -16,7 +16,6 @@ const SignUpPage = ({ navigation }, props) => {
         password: '',
         firstname: '',
         lastname: '',
-        currentcourse: ''
     })
 
     const setEmail = (email) => {
