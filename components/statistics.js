@@ -29,7 +29,7 @@ const StatisticsScreen = (props) => {
         }
         props.toggleGetStatsClicked();
 
-        axios.get(`http://localhost:3000/sessions/${props.selectedStatsActivity}`).then(({ data }) => {
+        axios.get(`http://localhost:3000/sessions/${props.userID}/${props.selectedStatsActivity}`).then(({ data }) => {
             props.setSessions(data.sessions)
 
             function calculateLineGraphData() {
@@ -275,7 +275,8 @@ const mapStateToProps = (state) => {
         finalLineGraphData: state.finalLineGraphData,
         finalBarChartData: state.finalBarChartData,
         totalTime: state.totalTime,
-        getStatsClicked: state.getStatsClicked
+        getStatsClicked: state.getStatsClicked,
+        userID: state.userID
     }
 }
 
