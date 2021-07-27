@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Math = require('core-js/fn/math');
+var Uaa = require('../uaa/authorization');
 
 
 router.post('/', function (req, res) {

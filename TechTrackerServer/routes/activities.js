@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var Uaa = require('../uaa/authorization');
 
 
-router.get('/', function (req, res) {
+router.get('/', Uaa.authenticate, function (req, res) {
     req.db.collection('activities').find({}).toArray().then(result => {
         console.log(result);
         res.json({ status: 'success', activities: result })
@@ -11,7 +12,7 @@ router.get('/', function (req, res) {
     })
 });
 
-router.post('/', function (req, res) {
+router.post('/', Uaa.authenticate, function (req, res) {
     req.db.collection('activities').findOne({ 'activityName': req.body.activityName }).then(result => {
         if (!result) {
             req.db.collection('activities').insertOne(req.body).then(result => {
