@@ -52,7 +52,7 @@ const SignUpPage = ({ navigation }, props) => {
         <SafeAreaView>
             <KeyboardAvoidingView>
                 <Header 
-                centerComponent={{ text: `Sign Up Here`, style: { color: '#fff' } }}
+                centerComponent={{ text: `Sign Up Here`, style: { color: '#fff', fontSize: 24 } }}
                 />
                 <Input
                     label='Your First name'

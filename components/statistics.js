@@ -160,6 +160,7 @@ const StatisticsScreen = (props) => {
             <View>
                 <Text>Total Hours Of Usage: {props.totalTime}</Text>
             </View>
+            <Text>  </Text>
             <View>
                 <Text>
                     Use Popularity By Hour
@@ -187,6 +188,7 @@ const StatisticsScreen = (props) => {
                 />
 
             </View>
+            <Text>  </Text>
             <View>
                 <Text>
                     Hours Of Use By Day Of The Week
@@ -223,9 +225,9 @@ const StatisticsScreen = (props) => {
 
             >
                 <Header
-                    centerComponent={{ text: `Statistics`, style: { color: '#fff' } }}
+                    centerComponent={{ text: `Statistics`, style: { color: '#fff', fontSize: 24 } }}
                 />
-                <Text>To see your Statistics, choose an activity from the dropdown, then click "Get Stats" {finalBarChartData}  {props.getStatsClicked} {'Ryan'}</Text>
+                <Text>To see your Statistics, choose an activity from the dropdown, then click "Get Stats"</Text>
                 <TouchableOpacity
                     style={styles.button}
                     onPress={getStats}
@@ -258,6 +260,7 @@ const StatisticsScreen = (props) => {
                     rowStyle={styles.dropdown2RowStyle}
                     rowTextStyle={styles.dropdown2RowTxtStyle}
                 />
+                <Text>  </Text>
 
                 {props.getStatsClicked ? charts : null}
             </ScrollView>

@@ -43,12 +43,12 @@ const LoginScreen = ({ navigation }, props) => {
 
                 (async () => {
                     try {
-                         await AsyncStorage.setItem('userToken', data1.token)
+                        await AsyncStorage.setItem('userToken', data1.token)
                     } catch (error) {
                         console.log(error);
                     }
                 })();
-                
+
 
                 navigation.navigate('Home');
 
@@ -63,43 +63,44 @@ const LoginScreen = ({ navigation }, props) => {
     return (
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView>
-                {/* <ImageBackground source={{ uri: '../images/background.jpeg' }}> */}
-                <Header
-                    centerComponent={{ text: `Login`, style: { color: '#fff' } }}
-                />
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={SignUpNav}
-                >
-                    <Text style={styles.btnText}>Not A User Yet? Sign Up!
+                {/* <ImageBackground source={require('../images/background.jpeg')}> */}
+                    <Header
+                        centerComponent={{ text: `Login`, style: { color: '#fff', fontSize: 24 } }}
+                    />
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={SignUpNav}
+                    >
+                        <Text style={styles.btnText}>Not A User Yet? Sign Up!
+                        </Text>
+                    </TouchableOpacity>
+                    <Text>  </Text>
+                    <Input
+                        placeholder='email'
+                        leftIcon={{ type: "fontisto", name: "email" }}
+                        label='Your Email Address'
+                        onChangeText={(email) => {
+                            setEmail(email);
+                        }}
+                        value={state.email}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                    />
+                    <Input
+                        placeholder='password'
+                        leftIcon={{ type: "entypo", name: "lock" }}
+                        label='Your Password'
+                        onChangeText={(password) => {
+                            setPassword(password);
+                        }}
+                        value={state.password}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        secureTextEntry={true}
+                    />
+                    <Text>
+                        <Button onPress={() => LoginHandler()} title='Login' />
                     </Text>
-                </TouchableOpacity>
-                <Input
-                    placeholder='email'
-                    leftIcon={{ type: "fontisto", name: "email" }}
-                    label='Your Email Address'
-                    onChangeText={(email) => {
-                        setEmail(email);
-                    }}
-                    value={state.email}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                />
-                <Input
-                    placeholder='password'
-                    leftIcon={{ type: "entypo", name: "lock" }}
-                    label='Your Password'
-                    onChangeText={(password) => {
-                        setPassword(password);
-                    }}
-                    value={state.password}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={true}
-                />
-                <Text>
-                    <Button onPress={() => LoginHandler()} title='Login' />
-                </Text>
 
                 {/* </ImageBackground> */}
             </KeyboardAvoidingView>

@@ -59,6 +59,10 @@ const SessionScreen = (props) => {
 
         const activity = { activityName: props.activityName }
 
+        if(props.activityName === ''){
+            return;
+        }
+
         axios.post('http://localhost:3000/activities', { ...activity }).then(({ data }) => {
             if (data.status === 'success') {
                 props.addActivity({ ...activity })
@@ -111,11 +115,11 @@ const SessionScreen = (props) => {
     return (
         <View>
             <Header
-                centerComponent={{ text: `Sessions`, style: { color: '#fff' } }}
+                centerComponent={{ text: `Sessions`, style: { color: '#fff', fontSize: 24 } }}
             />
             <TouchableOpacity
                 style={styles.button}
-                onPress={props.makeCreateActivityTrue}
+                onPress={props.createActivityState ? props.makeCreateActivityFalse : props.makeCreateActivityTrue}
             >
                 <Text style={styles.btnText}>Create A New Activity
                 </Text>
@@ -216,7 +220,8 @@ const mapDispatchToProps = (dispatch) => {
         setSessionEndTime: (time) => dispatch(actions.setSessionEndTime(time)),
         setSessionDuration: (duration) => dispatch(actions.setSessionDuration(duration)),
         setSessionHourOfDay: (hour) => dispatch(actions.setSessionHourOfDay(hour)),
-        setSessionDayOfWeek: (day) => dispatch(actions.setSessionDayOfWeek(day))
+        setSessionDayOfWeek: (day) => dispatch(actions.setSessionDayOfWeek(day)),
+       
     }
 }
 
