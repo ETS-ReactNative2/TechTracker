@@ -6,29 +6,39 @@ import {
     SafeAreaView
 } from "react-native";
 import { Header } from "react-native-elements";
+import { connect } from 'react-redux';
+import jwt_decode from 'jwt-decode';
+import * as actions from '../actions/actions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = (props) => {
 
+    let username = '';
+
     React.useEffect(() => {
+
         (async () => {
             let userToken = await AsyncStorage.getItem("userToken");
-            props.setFirstName(userToken.firstName);
-            props.setUserID(userToken.id);
+            const decoded = jwt_decode(userToken);
+            username = decoded.firstName;
+            props.setUserID(decoded.id);
         })();
-    }, []);
+
+    }, [])
+
 
     return (
         <SafeAreaView>
             <Header
-                centerComponent={{ text: `Welcome home, ${state.name}`, style: { color: '#fff' } }}
+                centerComponent={{ text: `Welcome home`, style: { color: '#fff',fontSize: 30} }}
             />
-            <ScrollView>
-                <Text>
+            <ScrollView style={styles.border}>
+                <Text style={styles.text}>
                     Congratulations on doing yourself a favor, and taking the time to use this app.
                     The interface is incredibly simple, but it has the potential to be very impactful.
-                    The simple act of visualizing how you spend your time an energy can bring about huge changes
+                    The simple act of visualizing how you spend your time and energy can bring about huge changes
                     in all aspects of your life; admittedly, most of us are simply unaware that we are wasting time.
-
+                
                     Taking a moment to create and end a session will influence how you spend that time, whether
                     it be watching television, using Facebook, or even meditating. We'll keep track of how much time you
                     spend doing all these things. So at the end of the day, you can know for sure how you used
@@ -52,7 +62,14 @@ const HomeScreen = (props) => {
 }
 
 const styles = StyleSheet.create({
-    null: null
+    text: {
+        fontSize: 24,
+        textAlign: 'center',
+        lineHeight: 30,
+    },
+    border: {
+        borderBottomWidth: 6
+    }
 })
 
 const mapStateToProps = (state) => {

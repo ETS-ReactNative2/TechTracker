@@ -2,13 +2,16 @@ import {
     TouchableOpacity,
     Text,
     StyleSheet,
-    ImageBackground
+    ImageBackground,
+    SafeAreaView,
+    KeyboardAvoidingView
 } from "react-native";
 import React from 'react';
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from "react-native";
 import { Input, Button, Header } from "react-native-elements";
+
 
 
 const LoginScreen = ({ navigation }, props) => {
@@ -34,68 +37,71 @@ const LoginScreen = ({ navigation }, props) => {
 
         axios.post("http://localhost:3000/auth/login/", { ...state }).then(({ data }) => {
 
-            if (data.status === "success") {
+            const data1 = data;
 
-                const setStorage = async (data) => {
+            if (data1.status === "success") {
+
+                (async () => {
                     try {
-                        await AsyncStorage.setItem('userToken', data.token)
+                         await AsyncStorage.setItem('userToken', data1.token)
                     } catch (error) {
                         console.log(error);
                     }
-                };
-
-                setStorage();
+                })();
+                
 
                 navigation.navigate('Home');
 
             } else {
                 Alert.alert("Login was unsuccessful");
             }
+        }).catch((error) => {
+            console.log({ name: 'Ryan', object: error })
         })
     }
 
     return (
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView>
-                <ImageBackground source={{ uri: '../images/background.jpeg' }}>
-                    <Header
-                        centerComponent={{ text: `Login`, style: { color: '#fff' } }}
-                    />
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={SignUpNav}
-                    >
-                        <Text style={styles.btnText}>Not A User Yet? Sign Up!
-                        </Text>
-                    </TouchableOpacity>
-                    <Input
-                        placeholder='email'
-                        leftIcon={{ type: "fontisto", name: "email" }}
-                        label='Your Email Address'
-                        onChangeText={(email) => {
-                            setEmail(email);
-                        }}
-                        value={state.email}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                    />
-                    <Input
-                        placeholder='password'
-                        leftIcon={{ type: "entypo", name: "lock" }}
-                        label='Your Password'
-                        onChangeText={(password) => {
-                            setPassword(password);
-                        }}
-                        value={state.password}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        secureTextEntry={true}
-                    />
-                    <Text>
-                        <Button onPress={() => LoginHandler()} title='Login' />
+                {/* <ImageBackground source={{ uri: '../images/background.jpeg' }}> */}
+                <Header
+                    centerComponent={{ text: `Login`, style: { color: '#fff' } }}
+                />
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={SignUpNav}
+                >
+                    <Text style={styles.btnText}>Not A User Yet? Sign Up!
                     </Text>
+                </TouchableOpacity>
+                <Input
+                    placeholder='email'
+                    leftIcon={{ type: "fontisto", name: "email" }}
+                    label='Your Email Address'
+                    onChangeText={(email) => {
+                        setEmail(email);
+                    }}
+                    value={state.email}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                />
+                <Input
+                    placeholder='password'
+                    leftIcon={{ type: "entypo", name: "lock" }}
+                    label='Your Password'
+                    onChangeText={(password) => {
+                        setPassword(password);
+                    }}
+                    value={state.password}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry={true}
+                />
+                <Text>
+                    <Button onPress={() => LoginHandler()} title='Login' />
+                </Text>
 
-                </ImageBackground>
+                {/* </ImageBackground> */}
             </KeyboardAvoidingView>
         </SafeAreaView>
     )

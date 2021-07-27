@@ -8,10 +8,11 @@ import {
     KeyboardAvoidingView,
 } from "react-native";
 import { Input, Header } from "react-native-elements";
+import { Alert } from "react-native";
 
 
 const SignUpPage = ({ navigation }, props) => {
-    const [state, setState] = useState({
+    const [state, setState] = React.useState({
         email: '',
         password: '',
         firstname: '',
@@ -33,9 +34,7 @@ const SignUpPage = ({ navigation }, props) => {
 
     const Submit = () => {
 
-        axios.post("http://localhost:3000/auth/signup", { ...state })
-
-            .then(({ data }) => {
+        axios.post("http://localhost:3000/auth/signup", { ...state }).then(({ data }) => {
 
                 if (data.status == "success") {
                     Alert.alert("Successful sign up")
@@ -73,7 +72,6 @@ const SignUpPage = ({ navigation }, props) => {
                 />
                 <Input
                     value={state.email}
-                    leftIcon={{ type: 'fontisto', name: 'email' }}
                     label='Your Email Address'
                     onChangeText={(email) => setEmail(email)}
                     autoCapitalize="none"
@@ -81,7 +79,6 @@ const SignUpPage = ({ navigation }, props) => {
 
                 />
                 <Input
-                    leftIcon={{ type: 'entypo', name: 'lock' }}
                     label='Your Password'
                     value={state.password}
                     onChangeText={(password) => setPassword(password)}

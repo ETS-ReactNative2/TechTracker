@@ -6,7 +6,7 @@ import {
     View,
     TouchableOpacity
 } from "react-native";
-import { Header } from "react-native-elements";
+import { Input, Header } from "react-native-elements";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import SelectDropdown from "react-native-select-dropdown";
 import * as actions from '../actions/actions'
@@ -16,17 +16,17 @@ import { connect } from 'react-redux'
 const SessionScreen = (props) => {
 
     React.useEffect(() => {
-        axios.get('http://localhost:3000/activities').then(activities => {
-            const names = activities.map(activity => {
+        axios.get('http://localhost:3000/activities').then(({ data }) => {
+            const names = data.activities.map(activity => {
                 return activity.activityName
             })
             return props.setActivities(names);
         })
     }, []);
 
-    const startSession = () => { //does rerender happen before function finishes executing?
+    const startSession = () => {
 
-        if(props.selectedSessionActivity === ''){
+        if (props.selectedSessionActivity === '') {
             return console.log("activity not chosen");
         }
 
@@ -35,60 +35,37 @@ const SessionScreen = (props) => {
         props.setSessionID(props.userID);
         props.setSessionActivity(props.userActivity);
 
-        if(props.started !== true){
+        if (props.started !== true) {
             props.toggleSessionStarted(true)
-        } 
+        }
     }
 
     const stopSession = () => {
 
-        const endDate = new Date();
-        props.setSessionEndTime(endDate);
-
-        const duration = Math.abs(props.sessionStart.getTime() - props.sessionEnd.getTime()) / (1000*60*60)
-        props.setSessionDuration(duration);
-
-        let hourOfDay = props.sessionStart.getHours()
-        if(hourOfDay > 12){
-            hourOfDay = hourOfDay - 12 + 'PM'
-        } else if (hourOfDay === 0) {
-            hourOfDay = 12 + "AM"
-        } else if (hourOfDay === 12) {
-            hourOfDay = hourOfDay + "PM"
-        } else {
-            hourOfDay = hourOfDay + "AM"
-        }
-        props.setSessionHourOfDay(hourOfDay)
-
-        let dayOfWeek = props.sessionStart.getDay()
-        if(dayOfWeek === 0){
-            dayOfWeek = 'Sunday'
-        } else if (dayOfWeek === 1){
-            dayOfWeek = 'Monday'
-        } else if (dayOfWeek === 2){
-            dayOfWeek = 'Tuesday'
-        } else if (dayOfWeek === 3){
-            dayOfWeek = 'Wednesday'
-        } else if (dayOfWeek === 4){
-            dayOfWeek = 'Thursday'
-        } else if (dayOfWeek === 5){
-            dayOfWeek = 'Friday'
-        } else if (dayOfWeek === 6){
-            dayOfWeek = 'Saturday'
-        }
-        props.setSessionDayOfWeek(dayOfWeek)
-
-        if(props.started === true){
+        if (props.started === true) {
             props.toggleSessionStarted(false)
-        } 
+        }
 
-        axios.post('http://localhost:3000/sessions', {...props.session}).then(({data}) => {
-            if(data.status === 'success'){
+        axios.post('http://localhost:3000/sessions', { ...props.session }).then(({ data }) => {
+            if (data.status === 'success') {
                 console.log('successfully added')
             }
         }).catch(error => {
             console.log(error)
-        })  
+        })
+    }
+
+    const addActivity = () => {
+
+        const activity = { activityName: props.activityName }
+
+        axios.post('http://localhost:3000/activities', { ...activity }).then(({ data }) => {
+            if (data.status === 'success') {
+                props.addActivity({ ...activity })
+                props.makeCreateActivityFalse()
+                console.log(data);
+            }
+        })
     }
 
     const startButton = (
@@ -104,7 +81,7 @@ const SessionScreen = (props) => {
     const stopButton = (
         <TouchableOpacity
             style={styles.button}
-            onPress={stopSession} 
+            onPress={stopSession}
         >
             <Text style={styles.btnText}>Stop Session
             </Text>
@@ -123,7 +100,7 @@ const SessionScreen = (props) => {
             />
             <TouchableOpacity
                 style={styles.button}
-                onPress={props.addActivity({ activityName: props.activityName })}
+                onPress={addActivity}
             >
                 <Text style={styles.btnText}>Create New Activity
                 </Text>
@@ -143,6 +120,7 @@ const SessionScreen = (props) => {
                 <Text style={styles.btnText}>Create A New Activity
                 </Text>
             </TouchableOpacity>
+            <Text>  </Text>
             <SelectDropdown
                 data={props.activities}
                 onSelect={(selectedActivity) => {
@@ -167,6 +145,7 @@ const SessionScreen = (props) => {
                 rowStyle={styles.dropdown2RowStyle}
                 rowTextStyle={styles.dropdown2RowTxtStyle}
             />
+            <Text></Text>
             {props.createActivityState === true ? createActivityForm : null}
             {props.started !== true ? startButton : stopButton}
         </View>
@@ -225,7 +204,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setActivities: (activities) => dispatch(actions.setActivities(activities)),
-        makeCreateActivityTrue: () => dispatch(actions.toggleCreateActivity()),
+        makeCreateActivityTrue: () => dispatch(actions.makeCreateActivityTrue()),
+        makeCreateActivityFalse: () => dispatch(actions.makeCreateActivityFalse()),
         handleActivityNameChange: (name) => dispatch(actions.handleActivityNameChange(name)),
         addActivity: (activity) => dispatch(actions.addActivity(activity)),
         setSelectedActivity: (activityName) => dispatch(actions.setSelectedActivity(activityName)),

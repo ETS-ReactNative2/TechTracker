@@ -42,6 +42,12 @@ const reducer = (state = initialState, action) => {
             createNewActivity: action.payload
         }
     }
+    if(action.type === actions.FINISH_CREATE_ACTIVITY) {
+        return {
+            ...state, 
+            createNewActivity: action.payload
+        }
+    }
     if(action.type === actions.ACTIVITY_NAME_CHANGE) {
         return {
             ...state, 
@@ -49,11 +55,6 @@ const reducer = (state = initialState, action) => {
         }
     }
     if(action.type === actions.ADD_ACTIVITY) {
-        axios.post('http://localhost:3000/activities', {...action.payload}).then(({data}) => {
-            if(data.status !== 'success'){
-                console.log(data);
-            }
-        })
         return {
             ...state, 
             activities: [...state.activities, action.payload.activityName]

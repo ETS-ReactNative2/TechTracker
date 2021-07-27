@@ -32,7 +32,7 @@ router.post('/signup', function (req, res, next) {
     req.db.collection('users').findOne({ 'email': email })
         .then(doc => {
             if (!doc) {
-                req.db.collection('users').insertOne({...req.body, password: password}).then(data => {
+                req.db.collection('users').insertOne({ ...req.body, password: password }).then(data => {
                     res.json({ status: 'success' });
                 }).catch(err => {
                     res.json({ status: 'error' });

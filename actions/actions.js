@@ -1,5 +1,6 @@
 export const CHANGE_SUBMIT = 'CHANGE_SUBMIT';
 export const CREATE_NEW_ACTIVITY = 'CREATE_NEW_ACTIVITY';
+export const FINISH_CREATE_ACTIVITY = 'FINISH_CREATE_ACTIVITY';
 export const SET_ACTIVITIES = 'SET_ACTIVITIES';
 export const ACTIVITY_NAME_CHANGE = 'ACTIVITY_NAME_CHANGE';
 export const ADD_ACTIVITY = 'ADD_ACTIVITY';
@@ -22,16 +23,23 @@ export const SET_FINAL_BAR_CHART_DATA = 'SET_FINAL_BAR_CHART_DATA';
 export const SET_TOTAL_TIME = 'SET_TOTAL_TIME';
 export const TOGGLE_GET_STATS_CLICKED = 'TOGGLE_GET_STATS_CLICKED';
 
+
 export const setActivities = (activities) => {
     return {
         type: SET_ACTIVITIES,
         payload: activities
     }
 }
-export const toggleCreateActivity = () => {
+export const makeCreateActivityTrue = () => {
     return {
         type: CREATE_NEW_ACTIVITY,
         payload: true
+    }
+}
+export const makeCreateActivityFalse = () => {
+    return {
+        type: FINISH_CREATE_ACTIVITY,
+        payload: false
     }
 }
 export const handleActivityNameChange = (name) => {
@@ -70,6 +78,13 @@ export const toggleStarted = (boolean) => {
         payload: boolean
     }
 }
+export const setSessions = (sessions) => {
+    return {
+        type: SET_SESSIONS,
+        payload: sessions
+    }
+}
+
 export const setSessionID = (userID) => {
     return {
         type: SET_SESSION_ID,
