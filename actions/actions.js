@@ -151,15 +151,15 @@ export const setFinalBarChartData = (finalData) => {
         payload: finalData
     }
 }
-export const setTotalTime = (time) => {
-    return {
-        type: SET_FINAL_BAR_CHART_DATA,
-        payload: time
-    }
-}
 export const toggleGetStatsClicked = (boolean) => {
     return {
         type: TOGGLE_GET_STATS_CLICKED,
         payload: boolean
+    }
+}
+export const setTotalTime = (time) => {
+    return {
+        type: SET_TOTAL_TIME,
+        payload: time
     }
 }

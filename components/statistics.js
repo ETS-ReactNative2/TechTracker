@@ -44,8 +44,6 @@ const StatisticsScreen = (props) => {
 
         axios.get(`http://localhost:3000/sessions/${props.userID}/${props.selectedStatsActivity}`).then(({ data }) => {
 
-            console.log(data)
-
             function calculateLineGraphData() {
 
                 let sessionsByDay = [];
@@ -78,6 +76,8 @@ const StatisticsScreen = (props) => {
                 for (i = 0; i < finalLineGraphData.length; i++) {
                     finalLineGraphData[i] = lineGraphDataObjects[i].duration
                 }
+                props.setFinalLineGraphData(finalLineGraphData)
+             
             }
             calculateLineGraphData();
 
@@ -106,6 +106,8 @@ const StatisticsScreen = (props) => {
                 for (i = 0; i < finalBarChartData.length; i++) {
                     finalBarChartData[i] = barChartDataObjects[i].uses
                 }
+                props.setFinalBarChartData(finalBarChartData)
+                console.log(finalBarChartData, "BarChartData", typeof finalBarChartData[0])
             }
             calculateBarGraphData();
 
@@ -115,9 +117,10 @@ const StatisticsScreen = (props) => {
                     return session.duration;
                 })
                 totalTime = durations.reduce(reducer, 0)
-                console.log(totalTime)
+        
             }
             calculateTotalHoursOfUse();
+            props.setTotalTime(totalTime);
             props.toggleGetStatsClicked();
         }).catch((error) => {
             console.log(error);
@@ -125,29 +128,37 @@ const StatisticsScreen = (props) => {
     }
 
     const lineChartData = {
-        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        labels: ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'],
         datasets: [
             {
-                data: finalLineGraphData,
-                strokeWidth: 2
+                data: props.finalLineGraphData,
             },
         ],
     };
     const barChartData = {
-        labels: ['12AM', '1AM', '2AM', '3AM', '4AM', '5AM', '6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM'],
+        labels: ['12AM', '', '', '', '', '', '6AM', '', '', '', '', '', '12PM', '', '', '', '', '', '6PM', '', '', '', '', '11PM'],
         datasets: [
             {
-                data: finalBarChartData
+                data: props.finalBarChartData
             },
         ],
     };
+
+    // const barChartData = {
+    //     labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+    //     datasets: [
+    //         {
+    //             data: [20, 45, 28, 80, 99, 43],
+    //         },
+    //     ],
+    // };
 
 
 
     const charts = (
         <SafeAreaView>
             <View>
-                <Text>Total Hours Of Usage: {totalTime}</Text>
+                <Text>Total Hours Of Usage: {props.totalTime}</Text>
             </View>
             <View>
                 <Text>
@@ -161,13 +172,13 @@ const StatisticsScreen = (props) => {
                     data={barChartData}
                     width={Dimensions.get('window').width}
                     height={220}
-                    yAxisLabel={'Number of Uses'}
-                    xAxisLabel={'Hour Of The Day'}
+                    // yAxisLabel={'Number of Uses'}
+                    // xAxisLabel={'Hour Of The Day'}
                     chartConfig={{
-                        backgroundColor: '#e26a00',
+                        backgroundColor: '#000000',
                         backgroundGradientFrom: '#fb8c00',
                         backgroundGradientTo: '#ffa726',
-                        decimalPlaces: 2,
+                        decimalPlaces: 3,
                         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                         style: {
                             borderRadius: 16
@@ -184,13 +195,13 @@ const StatisticsScreen = (props) => {
                     data={lineChartData}
                     width={Dimensions.get('window').width}
                     height={220}
-                    xAxisLabel={'Days Of The Week'}
-                    yAxisLabel={'Hours Of Use'}
+                    // xAxisLabel={'Days Of The Week'}
+                    // yAxisLabel={'Hours Of Use'}
                     chartConfig={{
                         backgroundColor: '#e26a00',
                         backgroundGradientFrom: '#fb8c00',
                         backgroundGradientTo: '#ffa726',
-                        decimalPlaces: 2,
+                        decimalPlaces: 3,
                         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                         style: {
                             borderRadius: 16
@@ -214,7 +225,7 @@ const StatisticsScreen = (props) => {
                 <Header
                     centerComponent={{ text: `Statistics`, style: { color: '#fff' } }}
                 />
-                <Text>To see your Statistics, choose an activity from the dropdown, then click "Get Stats"</Text>
+                <Text>To see your Statistics, choose an activity from the dropdown, then click "Get Stats" {finalBarChartData}  {props.getStatsClicked} {'Ryan'}</Text>
                 <TouchableOpacity
                     style={styles.button}
                     onPress={getStats}
@@ -307,6 +318,7 @@ const mapDispatchToProps = (dispatch) => {
         setStatsActivity: (activity) => dispatch(actions.setStatsActivity(activity)),
         setSessions: (sessions) => dispatch(actions.setSessions(sessions)),
         setLineGraphDataObjects: (data) => dispatch(actions.setLineGraphDataObjects(data)),
+        setFinalBarChartData: (data) => dispatch(actions.setFinalBarChartData(data)),
         setFinalLineGraphData: (finalData) => dispatch(actions.setFinalLineGraphData(finalData)),
         setTotalTime: (totalTime) => dispatch(actions.setTotalTime(totalTime)),
         toggleGetStatsClicked: () => dispatch(actions.toggleGetStatsClicked(true)),
