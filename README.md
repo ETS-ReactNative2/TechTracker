@@ -38,4 +38,4 @@ There were a few things I would refine if I had more time.
 2) Create more reactive charts in plotly.js, as the chart kit library I used was not very interactive.
 3) The user interface is rudementary and my last priority when creating this project; I would go back and spend more time on user experience. 
 
-Overall, I'm extremely happen with the project. The final powerpoint is in the repository.
+Overall, I'm extremely happen with the project. The final powerpoint is in the repository named FinalPresentation.pptx
