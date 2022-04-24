@@ -2,7 +2,6 @@ import {
     TouchableOpacity,
     Text,
     StyleSheet,
-    ImageBackground,
     SafeAreaView,
     KeyboardAvoidingView
 } from "react-native";

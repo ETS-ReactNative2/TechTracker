@@ -107,7 +107,7 @@ const StatisticsScreen = (props) => {
                     finalBarChartData[i] = barChartDataObjects[i].uses
                 }
                 props.setFinalBarChartData(finalBarChartData)
-                console.log(finalBarChartData, "BarChartData", typeof finalBarChartData[0])
+               
             }
             calculateBarGraphData();
 
