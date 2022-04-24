@@ -1,15 +1,6 @@
 import {
     TouchableOpacity,
-    Text,
-    StyleSheet,
-    SafeAreaView,
-    KeyboardAvoidingView
-} from "react-native";
-import React from 'react';
-import axios from "axios";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Alert } from "react-native";
-import { Input, Button, Header } from "react-native-elements";
+    Tgit
 
 
 
